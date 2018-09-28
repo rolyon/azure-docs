@@ -1,23 +1,25 @@
 ---
-title: Azure Content Moderator get started | Microsoft Docs
-description: How to get started with Azure Content Moderator.
+title: Get started with Content Moderator
+titlesuffix: Azure Cognitive Services
+description: How to get started with Content Moderator.
 services: cognitive-services
 author: sanjeev3
-manager: mikemcca
+manager: cgronlun
 
 ms.service: cognitive-services
-ms.technology: content-moderator
-ms.topic: article
+ms.component: content-moderator
+ms.topic: conceptual
 ms.date: 01/15/2018
 ms.author: sajagtap
 ---
 
 # Get started with Content Moderator
 
-You get started with Content Moderator APIs and the review tool in the following ways:
+You get started with Content Moderator in the following ways:
 
-- [Start with the review tool](#start-with-the-review-tool) to create both the API keys and a review team.
-- [Start with the APIs](#start-with-the-apis) by subscribing in the Azure portal. You still need to sign up online to create a review team.
+- [Start with the review tool](#start-with-the-review-tool) to get the API key and create a review team. The benefit is that you can use the API key to call the moderation APIs for scanning content and the review APIs for generating reviews, without additional steps.
+- [Subscribe to Content Moderator](#start-with-the-apis) in Azure to get the API key. Check out the [API reference](api-reference.md) and the [SDKs](sdk-and-samples.md#sdks-for-python-java-nodejs-and-net). You still need to sign up online to create a review team.
+- [Use the Flow connector and templates](https://flow.microsoft.com/connectors/shared_cognitiveservicescontentmoderator/content-moderator/) to check out a wide range of integrations with an easy-to-use designer.
 
 Regardless of the option you choose, see the [Managing credentials](review-tool-user-guide/credentials.md) article to find your API credentials.
 
@@ -48,7 +50,11 @@ Review the auto-moderated tags, change if needed, and submit by using the **Next
 
 Learn how to use all the [review tool's features](Review-Tool-User-Guide/human-in-the-loop.md) or continue with the next section to learn about the APIs. Skip the sign-up step because you have the API key provisioned for you in the review tool as shown in the [Managing credentials](review-tool-user-guide/credentials.md) article.
 
-## Start with the APIs
+### Use the APIs
+
+Learn how to integrate Content Moderator with your business applications. Check out the [API reference](api-reference.md) and the [SDKs](sdk-and-samples.md#sdks-for-python-java-nodejs-and-net).
+
+## Subscribe in the Azure portal
 
 [Subscribe to Content Moderator](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesContentModerator) in the Azure portal. Start with one of the following APIs:
 
@@ -76,4 +82,4 @@ Start here by choosing from the Job, Review, and Workflow APIs.
 
 ## Next steps
 
-Learn more about content moderation starting with the [image moderation API](image-moderation-api.md).
+Check out the [API reference](api-reference.md) and the [SDKs](sdk-and-samples.md#sdks-for-python-java-nodejs-and-net). Jumpstart your integration with the [.NET SDK samples](sdk-and-samples.md#net-sdk-samples), [REST API samples in C#](https://github.com/sanjeev3/azure-docs-pr/blob/master/articles/cognitive-services/Content-Moderator/sdk-and-samples.md#rest-api-samples-in-c) and [tutorials](sdk-and-samples.md#tutorials).

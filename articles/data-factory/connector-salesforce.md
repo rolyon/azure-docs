@@ -4,27 +4,24 @@ description: Learn how to copy data from Salesforce to supported sink data store
 services: data-factory
 documentationcenter: ''
 author: linda33wj
-manager: jhubbard
-editor: spelluru
+manager: craigg
+ms.reviewer: douglasl
 
 ms.service: data-factory
 ms.workload: data-services
 ms.tgt_pltfrm: na
 ms.devlang: na
-ms.topic: article
-ms.date: 01/05/2018
+ms.topic: conceptual
+ms.date: 08/21/2018
 ms.author: jingwang
 
 ---
 # Copy data from and to Salesforce by using Azure Data Factory
 > [!div class="op_single_selector" title1="Select the version of Data Factory service you are using:"]
-> * [Version 1 - Generally available](v1/data-factory-salesforce-connector.md)
-> * [Version 2 - Preview](connector-salesforce.md)
+> * [Version 1](v1/data-factory-salesforce-connector.md)
+> * [Current version](connector-salesforce.md)
 
 This article outlines how to use Copy Activity in Azure Data Factory to copy data from and to Salesforce. It builds on the [Copy Activity overview](copy-activity-overview.md) article that presents a general overview of the copy activity.
-
-> [!NOTE]
-> This article applies to version 2 of Data Factory, which is currently in preview. If you use version 1 of Data Factory, which is generally available, see [Salesforce connector in version 1](v1/data-factory-salesforce-connector.md).
 
 ## Supported capabilities
 
@@ -63,8 +60,8 @@ The following properties are supported for the Salesforce linked service.
 | type |The type property must be set to **Salesforce**. |Yes |
 | environmentUrl | Specify the URL of the Salesforce instance. <br> - Default is `"https://login.salesforce.com"`. <br> - To copy data from sandbox, specify `"https://test.salesforce.com"`. <br> - To copy data from custom domain, specify, for example, `"https://[domain].my.salesforce.com"`. |No |
 | username |Specify a user name for the user account. |Yes |
-| password |Specify a password for the user account.<br/><br/>You can mark this field as SecureString to store it securely in Data Factory. You also can store the password in Azure Key Vault and let the copy activity pull from there when you perform data copy. To learn more, see [Store credentials in Key Vault](store-credentials-in-key-vault.md). |Yes |
-| securityToken |Specify a security token for the user account. For instructions on how to reset and get a security token, see [Get a security token](https://help.salesforce.com/apex/HTViewHelpDoc?id=user_security_token.htm). To learn about security tokens in general, see [Security and the API](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_concepts_security.htm).<br/><br/>You can mark this field as SecureString to store it securely in Data Factory. You also can store the security token in Key Vault and let the copy activity pull from there when you perform data copy. To learn more, see [Store credentials in Key Vault](store-credentials-in-key-vault.md). |Yes |
+| password |Specify a password for the user account.<br/><br/>Mark this field as a SecureString to store it securely in Data Factory, or [reference a secret stored in Azure Key Vault](store-credentials-in-key-vault.md). |Yes |
+| securityToken |Specify a security token for the user account. For instructions on how to reset and get a security token, see [Get a security token](https://help.salesforce.com/apex/HTViewHelpDoc?id=user_security_token.htm). To learn about security tokens in general, see [Security and the API](https://developer.salesforce.com/docs/atlas.en-us.api.meta/api/sforce_api_concepts_security.htm).<br/><br/>Mark this field as a SecureString to store it securely in Data Factory, or [reference a secret stored in Azure Key Vault](store-credentials-in-key-vault.md). |Yes |
 | connectVia | The [integration runtime](concepts-integration-runtime.md) to be used to connect to the data store. If not specified, it uses the default Azure Integration Runtime. | No for source, Yes for sink if the source linked service doesn't have integration runtime |
 
 >[!IMPORTANT]
@@ -183,7 +180,8 @@ To copy data from Salesforce, set the source type in the copy activity to **Sale
 | Property | Description | Required |
 |:--- |:--- |:--- |
 | type | The type property of the copy activity source must be set to **SalesforceSource**. | Yes |
-| query |Use the custom query to read data. You can use a SQL-92 query or [Salesforce Object Query Language (SOQL)](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm) query. An example is `select * from MyTable__c`. | No (if "tableName" in the dataset is specified) |
+| query |Use the custom query to read data. You can use [Salesforce Object Query Language (SOQL)](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm) query or SQL-92 query. See more tips in [query tips](#query-tips) section. | No (if "tableName" in the dataset is specified) |
+| readBehavior | Indicates whether to query the existing records, or query all records including the deleted ones. If not specified, the default behavior is the former. <br>Allowed values: **query** (default), **queryAll**.  | No |
 
 > [!IMPORTANT]
 > The "__c" part of **API Name** is needed for any custom object.
@@ -280,17 +278,27 @@ You can retrieve data from Salesforce reports by specifying a query as `{call "<
 
 ### Retrieve deleted records from the Salesforce Recycle Bin
 
-To query the soft deleted records from the Salesforce Recycle Bin, you can specify **"IsDeleted = 1"** in your query. For example:
+To query the soft deleted records from the Salesforce Recycle Bin, you can specify `readBehavior` as `queryAll`. 
 
-* To query only the deleted records, specify "select * from MyTable__c **where IsDeleted= 1**."
-* To query all the records, including the existing and the deleted, specify "select * from MyTable__c **where IsDeleted = 0 or IsDeleted = 1**."
+### Difference between SOQL and SQL query syntax
+
+When copying data from Salesforce, you can use either SOQL query or SQL query. Note that these two has different syntax and functionality support, do not mix it. You are suggested to use the SOQL query which is natively supported by Salesforce. The following table lists the main differences:
+
+| Syntax | SOQL Mode | SQL Mode |
+|:--- |:--- |:--- |
+| Column selection | Need to enumarate the fields to be copied in the query, e.g. `SELECT field1, filed2 FROM objectname` | `SELECT *` is supported in addition to column selection. |
+| Quotation marks | Filed/object names cannot be quoted. | Field/object names can be quoted, e.g. `SELECT "id" FROM "Account"` |
+| Datetime format |  Refer to details [here](https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_dateformats.htm) and samples in next section. | Refer to details [here](https://docs.microsoft.com/sql/odbc/reference/develop-app/date-time-and-timestamp-literals?view=sql-server-2017) and samples in next section. |
+| Boolean values | Represented as `False` and `True`, e.g. `SELECT … WHERE IsDeleted=True`. | Represented as 0 or 1, e.g. `SELECT … WHERE IsDeleted=1`. |
+| Column renaming | Not supported. | Supported, e.g.: `SELECT a AS b FROM …`. |
+| Relationship | Supported, e.g. `Account_vod__r.nvs_Country__c`. | Not supported. |
 
 ### Retrieve data by using a where clause on the DateTime column
 
 When you specify the SOQL or SQL query, pay attention to the DateTime format difference. For example:
 
 * **SOQL sample**: `SELECT Id, Name, BillingCity FROM Account WHERE LastModifiedDate >= @{formatDateTime(pipeline().parameters.StartTime,'yyyy-MM-ddTHH:mm:ssZ')} AND LastModifiedDate < @{formatDateTime(pipeline().parameters.EndTime,'yyyy-MM-ddTHH:mm:ssZ')}`
-* **SQL sample**: `SELECT * FROM Account WHERE LastModifiedDate >= {ts'@{formatDateTime(pipeline().parameters.StartTime,'yyyy-MM-dd HH:mm:ss')}'} AND LastModifiedDate < {ts'@{formatDateTime(pipeline().parameters.EndTime,'yyyy-MM-dd HH:mm:ss')}'}"`
+* **SQL sample**: `SELECT * FROM Account WHERE LastModifiedDate >= {ts'@{formatDateTime(pipeline().parameters.StartTime,'yyyy-MM-dd HH:mm:ss')}'} AND LastModifiedDate < {ts'@{formatDateTime(pipeline().parameters.EndTime,'yyyy-MM-dd HH:mm:ss')}'}`
 
 ## Data type mapping for Salesforce
 
@@ -300,15 +308,15 @@ When you copy data from Salesforce, the following mappings are used from Salesfo
 |:--- |:--- |
 | Auto Number |String |
 | Checkbox |Boolean |
-| Currency |Double |
+| Currency |Decimal |
 | Date |DateTime |
 | Date/Time |DateTime |
 | Email |String |
 | Id |String |
 | Lookup Relationship |String |
 | Multi-Select Picklist |String |
-| Number |Double |
-| Percent |Double |
+| Number |Decimal |
+| Percent |Decimal |
 | Phone |String |
 | Picklist |String |
 | Text |String |

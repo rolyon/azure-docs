@@ -1,6 +1,6 @@
 ﻿---
 title: Set up web app analytics for ASP.NET with Azure Application Insights | Microsoft Docs
-description: Configure performance, availability, and usage analytics for your ASP.NET website, hosted on-premises or in Azure.
+description: Configure performance, availability, and user behavior analytics tools for your ASP.NET website, hosted on-premises or in Azure.
 services: application-insights
 documentationcenter: .net
 author: mrbullwinkle
@@ -11,7 +11,7 @@ ms.service: application-insights
 ms.workload: tbd
 ms.tgt_pltfrm: ibiza
 ms.devlang: na
-ms.topic: get-started-article
+ms.topic: conceptual
 ms.date: 01/19/2018
 ms.author: mbullwin
 
@@ -25,13 +25,16 @@ Setup takes just a few clicks in Visual Studio. You have the option to avoid cha
 ## Prerequisites
 To add Application Insights to your ASP.NET website, you need to:
 
-- Install [Visual Studio 2017](https://www.visualstudio.com/downloads/) with the following workloads:
+- Install [Visual Studio 2017 for Windows](https://www.visualstudio.com/downloads/) with the following workloads:
 	- ASP.NET and web development
 	- Azure development
 
 If you don't have an Azure subscription, create a [free](https://azure.microsoft.com/free/) account before you begin.
 
 ## <a name="ide"></a> Step 1: Add the Application Insights SDK
+
+> [!IMPORTANT]
+> The process to add Application Insights varies by ASP.NET template type. If you are using the **Empty** or **Azure Mobile App** template select **Project** > **Add Application Insights Telemetry**. For all other ASP.NET templates consult the instructions below. 
 
 Right-click your web app name in the Solution Explorer, and choose **Configure Application Insights**
 
@@ -98,7 +101,7 @@ In the portal, click any tile or chart to see more detail.
 ## Step 4: Publish your app
 Publish your app to your IIS server or to Azure. Watch [Live Metrics Stream](app-insights-metrics-explorer.md#live-metrics-stream) to make sure everything is running smoothly.
 
-Your telemetry builds up in the Application Insights portal, where you can monitor metrics, search your telemetry, and set up [dashboards](app-insights-dashboards.md). You can also use the powerful [Log Analytics query language](https://docs.loganalytics.io/) to analyze usage and performance, or to find specific events.
+Your telemetry builds up in the Application Insights portal, where you can monitor metrics, search your telemetry, and set up [dashboards](app-insights-dashboards.md). You can also use the powerful [Log Analytics query language](https://aka.ms/LogAnalyticsLanguage) to analyze usage and performance, or to find specific events.
 
 You can also continue to analyze your telemetry in [Visual Studio](app-insights-visual-studio.md), with tools such as diagnostic search and [trends](app-insights-visual-studio-trends.md).
 

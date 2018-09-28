@@ -1,22 +1,23 @@
 ---
-title: Azure Content Moderator - Video moderation | Microsoft Docs
+title: Video moderation with human review - Content Moderator
+titlesuffix: Azure Cognitive Services
 description: Use machine-assisted video moderation and human review tools to moderate inappropriate content
 services: cognitive-services
 author: sanjeev3
-manager: mikemcca
+manager: cgronlun
 
 ms.service: cognitive-services
-ms.technology: content-moderator
-ms.topic: article
+ms.component: content-moderator
+ms.topic: conceptual
 ms.date: 01/20/2018
 ms.author: sajagtap
 ---
 
-# Video moderation
+# Video moderation with human review
 
 Use Content Moderator’s machine-assisted [video moderation](video-moderation-api.md) and [human review tool](Review-Tool-User-Guide/human-in-the-loop.md) to moderate videos and transcripts for adult (explicit) and racy (suggestive) content to get the best results for your business.
 
-## Video-trained classifier
+## Video-trained classifier (preview)
 
 Machine-assisted video classification is either achieved with image trained models or video trained models. Unlike image-trained video classifiers, Microsoft's adult and racy video classifier is trained with videos. This method results in better match quality.
 
@@ -96,4 +97,10 @@ Videos typically have voice over that needs moderation as well for offensive spe
 
 ## Next steps
 
-Get started with the [video moderation quickstart](video-moderation-api.md), the [video review .NET quickstart](video-reviews-quickstart-dotnet.md), and the [video transcript review .NET quickstart](video-transcript-reviews-quickstart-dotnet.md).
+Get started with the [video moderation quickstart](video-moderation-api.md). 
+
+Learn how to generate [video reviews](video-reviews-quickstart-dotnet.md) for your human reviewers from your moderated output.
+
+Add [video transcript reviews](video-transcript-reviews-quickstart-dotnet.md) to your video reviews.
+
+Check out the detailed tutorial on how to develop a [complete video moderation solution](video-transcript-moderation-review-tutorial-dotnet.md). 

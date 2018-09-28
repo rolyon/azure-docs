@@ -1,24 +1,18 @@
 ---
-title: Build scheduler-based automated workflows - Azure Logic Apps | Microsoft Docs
-description: This tutorial shows how to create a scheduler-based, recurring, automated workflow with Azure Logic Apps
-author: ecfan
-manager: anneta
-editor: 
+title: Build schedule-based automated workflows - Azure Logic Apps | Microsoft Docs
+description: Tutorial - How to create a schedule-based, recurring, automated workflow with Azure Logic Apps
 services: logic-apps
-documentationcenter: 
-
-ms.assetid: 
 ms.service: logic-apps
-ms.workload: logic-apps
-ms.tgt_pltfrm: na
-ms.devlang: na
+ms.suite: integration
+author: ecfan
+ms.author: estfan
+ms.reviewer: klam, LADocs
 ms.topic: tutorial
 ms.custom: mvc
 ms.date: 01/12/2018
-ms.author: LADocs; estfan
 ---
 
-# Check traffic with a scheduler-based logic app
+# Check traffic with a schedule-based logic app
 
 Azure Logic Apps helps you automate workflows that run on a schedule. 
 This tutorial shows how you can build a [logic app](../logic-apps/logic-apps-overview.md) 
@@ -65,7 +59,7 @@ with your Azure account credentials.
 ## Create your logic app
 
 1. From the main Azure menu, 
-choose **New** > **Enterprise Integration** > **Logic App**.
+choose **Create a resource** > **Enterprise Integration** > **Logic App**.
 
    ![Create logic app](./media/tutorial-build-scheduled-recurring-logic-app-workflow/create-logic-app.png)
 
@@ -187,7 +181,7 @@ Provide these connection details, and choose **Create**.
    | **Distance unit** | <*your-preference*> | The unit of distance for your route. This article uses this unit: "Mile"  | 
    | **Travel mode** | Driving | The travel mode for your route. Select this mode: "Driving" | 
    | **Transit Date-Time** | None | Applies to transit mode only | 
-   | **Transit Date-Type Type** | None | Applies to transit mode only | 
+   | **Date-Time Type** | None | Applies to transit mode only | 
    |||| 
 
    For more information about these parameters, see 

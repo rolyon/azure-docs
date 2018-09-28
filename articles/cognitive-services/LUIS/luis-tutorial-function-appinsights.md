@@ -1,20 +1,21 @@
 ---
-title: Add LUIS data to Application Insights using Node.js | Microsoft Docs 
-titleSuffix: Azure
+title: Application Insights data from LUIS using C# 
+titleSuffix: Azure Cognitive Services
 description: Build a bot integrated with a LUIS application and Application Insights using Node.js.
 services: cognitive-services
-author: v-geberr
-manager: kamran.iqbal
-
+author: diberry
+manager: cgronlun
 ms.service: cognitive-services
-ms.technology: luis
+ms.component: language-understanding
 ms.topic: article
-ms.date: 01/18/2018
-ms.author: v-geberr
+ms.date: 09/24/2018
+ms.author: diberry
 ---
 
-# Add LUIS results to Application Insights from a web app bot
+# Add LUIS results to Application Insights
 This tutorial adds LUIS request and response information to [Application Insights](https://azure.microsoft.com/services/application-insights/) telemetry data storage. Once you have that data, you can query it with the Kusto language or PowerBi to analyze, aggregate, and report on intents, and entities of the utterance in real-time. This analysis helps you determine if you should add or edit the intents and entities of your LUIS app.
+
+The bot is built with the Bot Framework 3.x and the Azure Web app bot.
 
 In this tutorial, you learn how to:
 
@@ -38,7 +39,7 @@ This tutorial assumes you have code that looks like the following or that you ha
    [!code-javascript[Web app bot with LUIS](~/samples-luis/documentation-samples/tutorial-web-app-bot/nodejs/app.js "Web app bot with LUIS")]
 
 ## Add Application Insights library to web app bot
-Currently, Application Insights in this web app bot collects general state telemetry for the bot. It does not collect LUIS request and response information that you need to check and fix your intents and entities. 
+Currently, the Application Insights service, used in this web app bot, collects general state telemetry for the bot. It does not collect LUIS request and response information that you need to check and fix your intents and entities. 
 
 In order to capture the LUIS request and response, the web app bot needs the **[Application Insights](https://www.npmjs.com/package/applicationinsights)** NPM package installed and configured in the **app.js** file. Then the intent dialog handlers need to send the LUIS request and response information to Application Insights. 
 
@@ -147,11 +148,13 @@ Application Insights gives you the power to query the data with the [Kusto](http
     ![Analytics top intent](./media/luis-tutorial-appinsights/app-insights-top-intent.png)
 
 
-Learn more about the [Kusto query language](https://docs.loganalytics.io/docs/Learn/Getting-Started/Getting-started-with-queries) or [export the data to PowerBi](https://docs.microsoft.com/azure/application-insights/app-insights-export-power-bi). 
+Learn more about the [Kusto query language](https://docs.microsoft.com/azure/log-analytics/query-language/get-started-queries) or [export the data to PowerBi](https://docs.microsoft.com/azure/application-insights/app-insights-export-power-bi). 
 
 ## Next steps
 
-You can edit the LUIS intents and entities for the HomeAutomation app based on the utterances in Application Insights. 
+Other information you may want to add to the application insights data includes app ID, version ID, last model change date, last train date, last publish date. These values can either be retrieved from the endpoint URL (app ID and version ID), or from an [authoring API](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c3d) call then set in the web app bot settings and pulled from there.  
+
+If you are using the same endpoint subscription for more than one LUIS app, you should also include the subscription ID and a property stating that it is a shared key. 
 
 > [!div class="nextstepaction"]
-> [Learn more about example utterances](Add-example-utterances.md)
+> [Learn more about example utterances](luis-how-to-add-example-utterances.md)
